@@ -114,44 +114,62 @@ apiLaboratorio.modificarUnSoloExamLaboratorio = (req, res) => {
 
 
 apiLaboratorio.saveExamLaboratorio = (req, res) => {
-        var iteracion= req.body.examenes.length;
-        SaveLaboratorio(req.body,iteracion,req,res)
-    }
 
-  SaveLaboratorio=(body,iteracion,peticion,respuesta)=>{
-        var dni=body.dni;
-        var nombres=body.nombres;
-        var apellidos=body.apellidos
-        var fechaNacimiento=body.fechaNacimiento;
-        var telefono=body.telefono;
-        var empresa=body.empresa;
-        var fechaRegistroExamen=body.fechaRegistroExamen; 
-        var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
-        var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
-        var idMuestraLab=body.examenes[iteracion-1].id;
-        var idUsuario=peticion.usuario.idUsuario;  
-        peticion.getConnection((err, conn) => {
-            conn.query('CALL INSERTAR_EXAMEN_DE_LABORATORIO_PAMS(?,?,?,?,?,?,?,?,?,?,?) ',
-                         [nombres, apellidos,fechaNacimiento,telefono,dni,empresa,fechaRegistroExamen
-                            ,fechaAtencion,fechaEntregaResultado,idMuestraLab,idUsuario], (err, result, fields) => {
+        var iteracion= req.body.examenes.length;
+        var dni=req.body.dni;
+        var nombres=req.body.nombres;
+        var apellidos=req.body.apellidos
+        var fechaNacimiento=req.body.fechaNacimiento;
+        var telefono=req.body.telefono;
+        var empresa=req.body.empresa;
+
+      
+        req.getConnection((err, conn) => {
+            conn.query('CALL INSERTAR_PACIENTE(?,?,?,?,?,?) ',
+                         [dni,nombres, apellidos,fechaNacimiento,telefono,empresa], (err, result, fields) => {
                 if (err) {
-                    respuesta.status(400).json(err)
+                    console.log(err)
+                    res.status(400).json(err)
                     return;
                 } else {
-                    iteracion--;
-                    
-                    if(iteracion<1){
-                    respuesta.json({ mensaje: 'Registro Exitoso' });
-                    return;
-                    }else{
-                        SaveLaboratorio(body,iteracion,peticion,respuesta);
+        
+                    req.body.idPaciente=result[0][0].COMMIT;
+                    if(req.body.idPaciente){  
+                        SaveLaboratorio(req.body,iteracion,req,res,conn);
                     }
-                  
+                    return;
                 }
             });
         });
-    
+
     }
+
+  SaveLaboratorio=(body,iteracion,req,res,conn)=>{
+      var fechaRegistroExamen=body.fechaRegistroExamen; 
+      var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
+      var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
+      var idMuestraLab=body.examenes[iteracion-1].id;
+      var idUsuario=req.usuario.idUsuario;  
+      var idPaciente=body.idPaciente;  
+      conn.query('CALL INSERTAR_EXAMEN_DE_LABORATORIO_PAMS(?,?,?,?,?,?)',
+      [ idPaciente,fechaRegistroExamen,fechaAtencion,fechaEntregaResultado,
+        idMuestraLab,idUsuario], (err, result, fields) => {
+            if (err) {
+                    console.log(err)
+                    res.status(400).json(err)
+                    return;
+            } else {
+                iteracion--;     
+                    if(iteracion<1){
+                        res.json({ mensaje: 'Registro Exitoso' });
+                    return;
+                    }else{
+                        SaveLaboratorio(body,iteracion,req,res,conn)
+                    }
+            }
+        });
+    }
+
 
 
 

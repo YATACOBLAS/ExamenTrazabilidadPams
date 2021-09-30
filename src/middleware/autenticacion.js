@@ -22,7 +22,7 @@ const verificarRolAdmin=(req,res,next)=>{
 
     const rol =req.usuario.rol
 
-    if(rol=='administrador'){
+    if(rol=='Administrador'){
         next();
     }else{    
             res.status(401).json({
@@ -35,7 +35,7 @@ const verificarRolPatologia=(req,res,next)=>{
 
     const rol =req.usuario.rol
 
-    if(rol=='administrador' || rol=='patologia' ){
+    if(rol=='Administrador' || rol=='Patologia' ){
        
         next();
       }else{    
@@ -48,7 +48,7 @@ const verificarRolPatologia=(req,res,next)=>{
 const verificarRolLaboratorioPams=(req,res,next)=>{
 
     const rol =req.usuario.rol
-    if(rol=='administrador' || rol=='laboratorioPams' ){      
+    if(rol=='Administrador' || rol=='Laboratorio Pams' ){      
         next();
       }else{    
             res.status(401).json({ mensaje: 'Usuario no valido'});
@@ -61,7 +61,7 @@ const verificarRolLaboratorioTercerizado=(req,res,next)=>{
 
     const rol =req.usuario.rol
 
-    if(rol=='administrador' || rol=='laboratorioChincha' || rol=='laboratorioLima' ){
+    if(rol=='Administrador' || rol=='Laboratorio Chincha' || rol=='Laboratorio Lima' ){
        
         next();
       }else{    
@@ -77,7 +77,7 @@ const verificarRolImagenes=(req,res,next)=>{
 
     const rol =req.usuario.rol
 
-    if(rol=='administrador' || rol=='imagen' ){
+    if(rol=='Administrador' || rol=='Imagen' ){
        
         next();
       }else{    
@@ -94,7 +94,7 @@ const verificarRolAdmision=(req,res,next)=>{
 
     const rol =req.usuario.rol
 
-    if(rol=='administrador'  || rol=='admision'){
+    if(rol=='Administrador'  || rol=='Admision'){
        
         next();
       }else{    
