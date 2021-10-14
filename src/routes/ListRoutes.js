@@ -5,6 +5,7 @@ const apiLaboratorio =require('../api/Api_Laboratorio.js');
 const apiPatologia = require('../api/Api_Patologia.js');
 const apiImagenes = require('../api/Api_Imagenes.js');
 const apiTercerizado=require('../api/Api_Tercerizado');
+const apiMiExamen = require('../api/Api_MiExamen.js');
 const multer = require('multer');
 const path=require('path');
 const { v4:uuidv4 } = require('uuid');
@@ -38,6 +39,7 @@ const upload = multer({
 
 const {verificarAuth,verificarRolAdmin,verificarRolPatologia,verificarRolLaboratorioPams,
     verificarRolLaboratorioTercerizado,verificarRolAdmision,verificarRolImagenes}= require('../middleware/autenticacion');
+
 
 
 
@@ -106,6 +108,9 @@ router.get('/listarAdmisionExamLaboratorio',[verificarAuth,verificarRolAdmision]
 router.get('/listarAdmisionExamPatologia',[verificarAuth,verificarRolAdmision], api.listarAdmisionExamPatologia);
 router.get('/listarResultados',[verificarAuth,verificarRolAdmision], api.listarResultados);
 router.post('/cambiarVisibilidadResultado',[verificarAuth,verificarRolAdmision], api.cambiarVisibilidadResultado);
+
+//Solo para paciente de PAMS
+router.post('/listarMiExamen',apiMiExamen.consultaExamen);
 
 //rutas de prueba
 router.post('/getFile',api.getFile);

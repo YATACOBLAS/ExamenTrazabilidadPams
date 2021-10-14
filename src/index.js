@@ -29,14 +29,14 @@ app.set('port', process.env.PORT || 3000);
 
 // app.use(myConnection(mysql, {
 //     host:'localhost',
-//     user:'root',
+//     user:'jhon',
 //     password:'root',
 //     port:3306 ,
 //     database:'dbpams'
 // },'single'));
 
 app.use(myConnection(mysql, {
-    host:'143.244.182.189',
+    host:'23.99.182.238',
     user:'jhon',
     password:'@pams$Server_2021',
     port:3306,

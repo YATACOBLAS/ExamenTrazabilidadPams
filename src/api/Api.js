@@ -197,13 +197,11 @@ api.login = (req, res) => {
                 var password = dato.pass;
 
                 if (!bcrypt.compareSync(pass, password)) {
-                    
-                    res.status(500).json({
+                     res.status(500).json({
                         mensaje: 'Error en sus credenciales',
                         err
                     });
                     return;
-
                 } else {
                     var usuario = {
                         nombre: dato.descripcion,
@@ -214,7 +212,6 @@ api.login = (req, res) => {
                     //generando un token
                     let token = jwt.sign({ data: usuario }, 'SECRETO_PAMS_2021_TRAZABILIDAD_SECRETO', { expiresIn: 60 * 60 * 24 * 30 })
                     //responder con las validaciones echas anteriormente
-
                     res.json({
                         usuario,
                         token: token
