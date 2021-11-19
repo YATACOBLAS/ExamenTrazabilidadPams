@@ -98,6 +98,7 @@ router.get('/listarEspecialidad',apiImagenes.listarEspecialidad);
 
 router.post('/guardarExamImagenes',[verificarAuth,verificarRolImagenes],upload, apiImagenes.guardarExamImagenes);
 router.post('/modificarExamImagenes',[verificarAuth,verificarRolImagenes], apiImagenes.modificarExamImagenes);
+router.post('/cambiarEstadoImagen',[verificarAuth,verificarRolImagenes], apiImagenes.cambiarEstadoImagen);
 router.post('/listarExamenesImagenes',[verificarAuth,verificarRolImagenes],apiImagenes.listarExamenesImagenes)
 
 router.post('/insertarMedico',[verificarAuth,verificarRolImagenes],apiImagenes.insertarMedico)

@@ -203,7 +203,7 @@ const path=require('path');
         var idExamen=examenes[iteracion-1].idExamen; 
         var fechaRegistroExamen=examenes[iteracion-1].fechaRegistroExamen; 
         var fechaAtencion=examenes[iteracion-1].fechaAtencion; 
-        var fechaEntregaResultado=examenes[iteracion-1].fechaResultado; 
+        var fechaEntregaResultado=examenes[iteracion-1].fechaResultado;
         var nroVoucher=examenes[iteracion-1].nroVoucher; 
         var importe=examenes[iteracion-1].importe;      
         var idTipoAtencion=examenes[iteracion-1].idTipoAtencion; 
@@ -253,6 +253,26 @@ const path=require('path');
             return;
         })
 
+    }
+
+    apiImagenes.cambiarEstadoImagen=(req,res)=>{
+        let idExamen=req.body.idExamen;
+        let estadoResultado=req.body.estadoResultado=='1'? 0:1;
+        req.getConnection((err,conn)=>{
+            if(err){
+               res.status(400).json(err);
+               return}
+            else{
+            conn.query(`CALL CAMBIAR_ESTADO_IMAGEN(?,?)`,[idExamen,estadoResultado],(err,result)=>{
+                if(err){
+                    res.status(400).json(err);
+                    }else{
+                    res.json(result[0][0]);
+                    }
+                return
+             })
+        }
+     })
     }
 
 

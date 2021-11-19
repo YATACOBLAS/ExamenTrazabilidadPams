@@ -63,8 +63,8 @@ function modificarPatologia(body,iteracion,peticion,respuesta){
         var doExamen=stringDoExamen=='Modificar'? 1:(stringDoExamen=='Nuevo'? 0 : -1 ); 
         var estadoPago=body.examenes[iteracion-1].pagado;
         var idExamen=body.examenes[iteracion-1].idExamen; 
-        var fechaRegistroExamen=body.fechaRegistroExamen; 
-        var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
+        var fechaRegistroExamen=stringDoExamen=='Nuevo'? body.fechaRegistroExamen : '' ; 
+        var fechaAtencion=body.examenes[iteracion-1].atendido? body.fechaRegistroExamen: null; 
         var fechaEntregaResultado=estadoPago? (body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado):null; 
         var cantidad=body.examenes[iteracion-1].cantidad; 
         var fechaEnvioMuestra=estadoPago? (body.examenes[iteracion-1].fechaEnvio ===''? null: body.examenes[iteracion-1].fechaEnvio):null; 

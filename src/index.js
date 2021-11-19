@@ -36,13 +36,20 @@ app.set('port', process.env.PORT || 3000);
 // },'single'));
 
 app.use(myConnection(mysql, {
-    host:'',
+    host:'23.99.182.238',
     user:'jhon',
-    password:'',
+    password:'@pams$Server_2021',
     port:3306,
-    database:''
+    database:'dbpams'
 },'single'));
 
+// app.use(myConnection(mysql, {
+//     host:'178.128.68.102',
+//     user:'fixblue',
+//     password:'$Fixblue_remoto%123',
+//     port:3306 ,
+//     database:'FIXBLUE'
+// },'single'));
 
 
 

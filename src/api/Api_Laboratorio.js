@@ -30,7 +30,8 @@ apiLaboratorio.listarExamenLaboratorio = (req, res) => {
     req.getConnection((err, conn) => {
         conn.query('call LISTA_EXAMEN_DE_LABORATORIO_PAMS(?,?)',[desde,hasta], (err, result) => {
             if (err) { res.status(400).json(err) };
-            res.json(result[0]);
+                res.json(result[0]);
+                w
             return;
         });
     });
@@ -63,7 +64,7 @@ modificarLaboratorio=(body,iteracion,peticion,respuesta)=>{
              var stringDoExamen=body.examenes[iteracion-1].doExamen;
         var doExamen=(stringDoExamen=='Modificar'? 1:(stringDoExamen=='Nuevo'? 0 : -1 )) ; 
         var idExamen=body.examenes[iteracion-1].idExamen; 
-        var fechaRegistroExamen=body.fechaRegistroExamen; 
+        var fechaRegistroExamen=(stringDoExamen=='Nuevo'? body.fechaRegistroExamen : '' ); 
         var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
         var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
         var idMuestraLab=body.examenes[iteracion-1].id;
