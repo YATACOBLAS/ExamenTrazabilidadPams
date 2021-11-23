@@ -190,9 +190,7 @@ const path=require('path');
                         res.status(400).json(err)
                         return;
                     } else {
-                       
                         modificarImagenes(req.body.examenes,req,res,iteracion,conn, result[0][0]._idPaciente);
-                    
                     }
         }); });
 }
@@ -227,8 +225,6 @@ const path=require('path');
                         res,conn,opcionExamen,result[0][0]._idImagen,result[0][0]._idExamen);
                        iteracionDetalleRol--;
                     } while (iteracionDetalleRol!==0)
-                  
-                    
                      iteracion--;
                      if(iteracion<1){
                              res.json({mensaje:'Modificación Exitosa'});

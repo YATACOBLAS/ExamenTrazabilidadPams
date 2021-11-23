@@ -63,7 +63,8 @@ function modificarPatologia(body,iteracion,peticion,respuesta){
         var doExamen=stringDoExamen=='Modificar'? 1:(stringDoExamen=='Nuevo'? 0 : -1 ); 
         var estadoPago=body.examenes[iteracion-1].pagado;
         var idExamen=body.examenes[iteracion-1].idExamen; 
-        var fechaRegistroExamen=stringDoExamen=='Nuevo'? body.fechaRegistroExamen : '' ; 
+        var nroVoucher=body.examenes[iteracion-1].nroVoucher;      
+        var fechaRegistroExamen=stringDoExamen=='Nuevo'? body.fechaRegistroExamen : null ; 
         var fechaAtencion=body.examenes[iteracion-1].atendido? body.fechaRegistroExamen: null; 
         var fechaEntregaResultado=estadoPago? (body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado):null; 
         var cantidad=body.examenes[iteracion-1].cantidad; 
@@ -74,14 +75,15 @@ function modificarPatologia(body,iteracion,peticion,respuesta){
         var idUsuario=peticion.usuario.idUsuario;  
          
     peticion.getConnection((err, conn) => {
-        conn.query('CALL MODIFICAR_PACIENTE_EXAMEN_PATOLOGIA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
+        conn.query('CALL MODIFICAR_PACIENTE_EXAMEN_PATOLOGIA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
                      [dni,nombres, apellidos,fechaNacimiento,telefono,empresa,doExamen,idExamen, 
-                     fechaRegistroExamen, fechaAtencion,fechaEntregaResultado,
+                      nroVoucher, fechaRegistroExamen, fechaAtencion,fechaEntregaResultado,
                      cantidad,fechaEnvioMuestra,estadoPago,estadoEnvio,idMuestraPat,
                      idPaciente,idUsuario], (err, result, fields) => {
 
             if (err) {
                 respuesta.status(400).json(err)
+                console.log(err)
                 return;
             } else {
                 iteracion--;
@@ -141,6 +143,7 @@ apiPatologia.saveExamPatologia = (req, res) => {
         var telefono=body.telefono;
         var empresa=body.empresa;
         var fechaRegistroExamen=body.fechaRegistroExamen; 
+        var nroVoucher= body.examenes[iteracion-1].nroVoucher;
         var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
         var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
         var cantidad=body.examenes[iteracion-1].cantidad; 
@@ -149,10 +152,10 @@ apiPatologia.saveExamPatologia = (req, res) => {
         var estadoPago=body.examenes[iteracion-1].pagado;
         var idMuestraPat=body.examenes[iteracion-1].id;
         var idUsuario=peticion.usuario.idUsuario;  
-    
+        
         peticion.getConnection((err, conn) => {
-            conn.query('CALL INSERTAR_EXAMEN_DE_PATOLOGIA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
-                         [nombres, apellidos,fechaNacimiento,telefono,dni,empresa,fechaRegistroExamen
+            conn.query('CALL INSERTAR_EXAMEN_DE_PATOLOGIA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
+                         [nombres, apellidos,fechaNacimiento,telefono,dni,empresa,nroVoucher,fechaRegistroExamen
                             ,fechaAtencion,fechaEntregaResultado,cantidad,fechaEnvioMuestra,estadoEnvio,estadoPago,idMuestraPat,idUsuario], (err, result, fields) => {
     
                 if (err) {
