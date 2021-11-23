@@ -17,9 +17,8 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 
 
-
 app.use(myConnection(mysql, {
-    host:'23.99.182.238',
+    host:'',
     user:'',
     password:'',
     port:3306,
