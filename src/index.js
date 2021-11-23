@@ -13,50 +13,20 @@ var corsOptions = {
     optionsSuccessStatus: 200 
   }
 const app = express();
-//url de la base de datos
-// mysql://:8253dddd@/?reconnect=true
-//settings
-app.set('port', process.env.PORT || 3000);
-//probando
-// app.use(myConnection(mysql, {
-//     host:'us-cdbr-east-03.cleardb.com',
-//     user:'b22b2cd12e8323',
-//     password:'8253dddd',
-//     port:3306 ,
-//     database:'heroku_7cde431e4aab46a'
-// },'single'));
- 
 
-// app.use(myConnection(mysql, {
-//     host:'localhost',
-//     user:'jhon',
-//     password:'root',
-//     port:3306 ,
-//     database:'dbpams'
-// },'single'));
+app.set('port', process.env.PORT || 3000);
+
+
 
 app.use(myConnection(mysql, {
     host:'23.99.182.238',
-    user:'jhon',
-    password:'@pams$Server_2021',
+    user:'',
+    password:'',
     port:3306,
-    database:'dbpams'
+    database:''
 },'single'));
 
-// app.use(myConnection(mysql, {
-//     host:'178.128.68.102',
-//     user:'fixblue',
-//     password:'$Fixblue_remoto%123',
-//     port:3306 ,
-//     database:'FIXBLUE'
-// },'single'));
 
-
-
-// con.connect(function(err){
-//     if(err) throw err;
-//    console.log('Conected!!');
-// })
 app.use(cors());
 app.use(express.json());
 
