@@ -13,13 +13,11 @@ const storage = multer.diskStorage({
     destination:path.join(__dirname,'../imagenes'),
     filename:(req,file,cb)=>{
      cb(null, uuidv4()+path.extname(file.originalname).toLocaleLowerCase());
-    },
-    
+    }
 })
 
 const upload = multer({
     storage,
-    
     dest:path.join(__dirname,'../imagenes'),
     fileFilter:(req,file,cb)=>{
         console.log(file)
@@ -104,10 +102,12 @@ router.post('/listarExamenesImagenes',[verificarAuth,verificarRolImagenes],apiIm
 router.post('/insertarMedico',[verificarAuth,verificarRolImagenes],apiImagenes.insertarMedico)
 
 //Admision
+router.get('/listaCompletaDeAtrasadosAdmision',[verificarAuth,verificarRolAdmision], api.listaCompletaDeAtrasadosAdmision);
+router.get('/listaCompletaDeHoyAdmision',[verificarAuth,verificarRolAdmision], api.listaCompletaDeHoyAdmision);
 router.get('/listaCompletaDePendientesAdmision',[verificarAuth,verificarRolAdmision], api.listaCompletaDePendientesAdmision);
 router.get('/listarAdmisionExamLaboratorio',[verificarAuth,verificarRolAdmision], api.listarAdmisionExamLaboratorio);
 router.get('/listarAdmisionExamPatologia',[verificarAuth,verificarRolAdmision], api.listarAdmisionExamPatologia);
-router.get('/listarResultados',[verificarAuth,verificarRolAdmision], api.listarResultados);
+router.post('/listarResultados',[verificarAuth,verificarRolAdmision], api.listarResultados);
 router.post('/cambiarVisibilidadResultado',[verificarAuth,verificarRolAdmision], api.cambiarVisibilidadResultado);
 
 //Solo para paciente de PAMS

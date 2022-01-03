@@ -99,39 +99,6 @@ api.saveMuestra = (req, res) => {
 
 
 
-
-/*
-
-api.saveRoles = (req, res) => {
-    var iteracion = req.body.roles.length;
-    Roles(req.body, iteracion-1, req, res);
-};
-
-function Roles(body, iteracion, peticion, respuesta) {
-    peticion.getConnection((error, conn) => {
-        if (error) {
-            res.status(500).json({
-                mensaje: 'Ocurrio un error',
-                err
-            });
-        } else {
-            var idusuario = body.idusuario;
-            var idrol = body.roles[iteracion].rol;
-            var privilegio = body.roles[iteracion].privilegio;
-            conn.query('CALL SOCKET_INSERTAR_ROL(?,?,?) ', [idusuario, idrol, privilegio], (err, result, fields) => {
-                if (err) {
-                    respuesta.json(err)
-                } else {
-                    if (iteracion > 0) {
-                        Roles(body, iteracion - 1, peticion, respuesta);
-                    }
-                }
-            });
-        }
-    });
-}
-*/
-
 api.saveUsers = (req, res) => {
     var user = req.body.usuario;
     var email = req.body.email;
@@ -224,8 +191,33 @@ api.login = (req, res) => {
 };
 
 
-api.listaCompletaDePendientesAdmision = (req, res) => { 
 
+// LISTA PARA TRAZABILIDAD DE  ADMISION 
+api.listaCompletaDeAtrasadosAdmision = (req, res) => { 
+    req.getConnection((err, conn) => {
+        conn.query(`select * from LISTA_COMPLETA_DE_RESULTADOS_ATRASADOS_PARA_ADMISION`, 
+         (err, result) => {
+            if (err) { res.status(400).json(err)
+                return; };
+            res.json(result);   
+            return;
+        });
+    });
+};
+
+api.listaCompletaDeHoyAdmision = (req, res) => { 
+    req.getConnection((err, conn) => {
+        conn.query(`SELECT * from LISTA_COMPLETA_DE_RESULTADOS_DE_HOY_PARA_ADMISION`, 
+         (err, result) => {
+            if (err) { res.status(400).json(err)
+                return; };
+            res.json(result);
+            return;
+        });
+    });
+};
+
+api.listaCompletaDePendientesAdmision = (req, res) => { 
     req.getConnection((err, conn) => {
         conn.query(`SELECT * from LISTA_COMPLETA_DE_RESULTADOS_PENDIENTES_PARA_ADMISION`, 
          (err, result) => {
@@ -265,12 +257,14 @@ api.listarAdmisionExamPatologia = (req, res) => {
 };
 
 api.listarResultados = (req, res) => { 
+    var fechaDesde= req.body.fechaDesde;
+    var fechaHasta= req.body.fechaHasta;   
         req.getConnection((err, conn) => {
-            conn.query("SELECT * FROM LISTAR_RESULTADO_EXAMENES_VISIBLES_PARA_ADMISION",
+            conn.query("CALL LISTAR_RESULTADO_EXAMENES_VISIBLES_PARA_ADMISION(?,?)",[fechaDesde,fechaHasta],
             (err, result) => {
                 if (err) { res.status(400).json(err) 
                     return;};
-                res.json(result);
+                res.json(result[0]);
                 return;
             });
         });
