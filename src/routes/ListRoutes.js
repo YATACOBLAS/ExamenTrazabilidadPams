@@ -1,5 +1,6 @@
 const express =require('express');
 const router= express.Router();
+const apiNotificacion= require('../api/Notificacion.js');
 const api= require('../api/Api.js');
 const apiLaboratorio =require('../api/Api_Laboratorio.js');
 const apiPatologia = require('../api/Api_Patologia.js');
@@ -109,6 +110,9 @@ router.get('/listarAdmisionExamLaboratorio',[verificarAuth,verificarRolAdmision]
 router.get('/listarAdmisionExamPatologia',[verificarAuth,verificarRolAdmision], api.listarAdmisionExamPatologia);
 router.post('/listarResultados',[verificarAuth,verificarRolAdmision], api.listarResultados);
 router.post('/cambiarVisibilidadResultado',[verificarAuth,verificarRolAdmision], api.cambiarVisibilidadResultado);
+//notificar Paciente
+router.post('/notificar',[verificarAuth,verificarRolAdmision], apiNotificacion.notificar);
+
 
 //Solo para paciente de PAMS
 router.post('/listarMiExamen',apiMiExamen.consultaExamen);

@@ -153,6 +153,7 @@ apiLaboratorio.saveExamLaboratorio = (req, res) => {
       var nroVoucher= body.examenes[iteracion-1].nroVoucher;
       var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
       var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
+      
       var idMuestraLab=body.examenes[iteracion-1].id;
       var idUsuario=req.usuario.idUsuario;  
       var idPaciente=body.idPaciente;  

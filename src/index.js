@@ -27,22 +27,22 @@ app.set('port', process.env.PORT || 3000);
 // },'single'));
  
 
-// app.use(myConnection(mysql, {
-//     host:'localhost',
-//     user:'jhon',
-//     password:'root',
-//     port:3306 ,
-//     database:'dbpams'
-// },'single'));
-
 app.use(myConnection(mysql, {
-    host:'',
-    user:'',
-    password:'',
-    port:3306,
-    database:''
+    host:'localhost',
+    user:'jhon',
+    password:'root',
+    port:3306 ,
+    database:'dbpams'
 },'single'));
-
+/*
+app.use(myConnection(mysql, {
+    host:'20.25.10.169',
+    user:'jhon',
+    password:'@pams$Server_2022',
+    port:3306,
+    database:'dbpams'
+},'single'));
+*/
 // app.use(myConnection(mysql, {
 //     host:'178.128.68.102',
 //     user:'fixblue',
