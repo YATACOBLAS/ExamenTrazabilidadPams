@@ -5,8 +5,7 @@ const path=require('path');
      // // // // // IMAGENES  // // // // // // // 
      // // // // // // // // // // // // // // //
 
-    apiImagenes.listarEspecialidad=(req,res)=>{
-       
+    apiImagenes.listarEspecialidad=(req,res)=>{      
         req.getConnection((err, conn) => {
             conn.query('select * from especialidad', (err, result) => {
                 if (err) { res.status(400).json(err) };
@@ -17,7 +16,6 @@ const path=require('path');
      };
 
     apiImagenes.listarTipoMuestraImagen=(req,res)=>{
-
         req.getConnection((err, conn) => {
             conn.query('select * from tipoMuestraImagen', (err, result) => {
                 if (err) { res.status(400).json(err) };
@@ -96,14 +94,12 @@ const path=require('path');
                     console.log(err)
                     return;
                 }
-               
                 req.body.idPaciente=result[0][0].COMMIT;
                 if(req.body.idPaciente){              
                     guardarImagenes(req.body,iteracion,req,res,conn);          
                 }
             })
         })
-  
    }
 
     guardarImagenes=(body,iteracion,req,res,conexion)=>{
@@ -237,6 +233,25 @@ const path=require('path');
    
     }
 
+    apiImagenes.eliminarExamImagen = (req, res) => {
+        var id= req.body.idExamen;
+        req.getConnection((err, conn) => {
+            if(err){
+                res.status(400).json(err)
+            }
+             conn.query('CALL ELIMINAR_EXAMEN_DE_IMAGENES(?)',[id], (err, result, fields) => {
+                        if (err) {
+                            console.log(err)
+                            res.status(400).json(err)
+                        return;
+                        } else {
+                                res.json({ mensaje: 'Eliminación Exitosa' });
+                        return;
+                             }
+                 });
+            });
+      }
+      
     modificarDetalleRolMedico=(detalleRolMedico,res,conn,opcion,idImagen,idExamen)=>{
         var idRolMedico=detalleRolMedico.idRolMedico;
         var idMedico=detalleRolMedico.idMedico;

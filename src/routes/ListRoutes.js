@@ -10,6 +10,7 @@ const apiMiExamen = require('../api/Api_MiExamen.js');
 const multer = require('multer');
 const path=require('path');
 const { v4:uuidv4 } = require('uuid');
+
 const storage = multer.diskStorage({
     destination:path.join(__dirname,'../imagenes'),
     filename:(req,file,cb)=>{
@@ -32,7 +33,6 @@ const upload = multer({
             return cb(null,true);
         cb('Error en extension de archivo')
     },
-    
 }).array('images')
 
 
@@ -55,6 +55,8 @@ router.get('/listarEmpresa', api.listarEmpresa);
 router.get('/listarUsuario', api.listarUsuario);
 router.get('/listarRol', api.listarRol);
 router.post('/saveRoles',[verificarAuth,verificarRolAdmin], api.saveRoles);
+router.post('/deleteUser',[verificarAuth,verificarRolAdmin], api.deleteUser);
+
 
 //MUESTRA
 router.post('/saveMuestra', api.saveMuestra);
@@ -68,6 +70,7 @@ router.get('/listarExamPendientesPatologia', apiPatologia.listarExamPendientesPa
 router.post('/saveExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.saveExamPatologia);
 router.post('/modificarExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.modificarExamPatologia);
 router.post('/modificarUnSoloExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.modificarUnSoloExamPatologia);
+router.post('/eliminarExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.eliminarExamPatologia);
 
 //LaboratorioClinicoPams
 router.get('/listarTipoMuestraLab', apiLaboratorio.listarTipoMuestraLab);
@@ -78,6 +81,7 @@ router.get('/listarExamPendientesLaboratorio', apiLaboratorio.listarExamPendient
 router.post('/saveExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.saveExamLaboratorio);
 router.post('/modificarExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.modificarExamLaboratorio);
 router.post('/modificarUnSoloExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.modificarUnSoloExamLaboratorio);
+router.post('/eliminarExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.eliminarExamLaboratorio);
 //LaboratorioTercerizadoAmbos
 router.post('/guardarResultadoPDF',[verificarAuth,verificarRolLaboratorioTercerizado],(multer().single("file")), apiTercerizado.guardarResultadoPDF);
 //LaboratorioTercerizadoLima
@@ -97,6 +101,7 @@ router.get('/listarEspecialidad',apiImagenes.listarEspecialidad);
 
 router.post('/guardarExamImagenes',[verificarAuth,verificarRolImagenes],upload, apiImagenes.guardarExamImagenes);
 router.post('/modificarExamImagenes',[verificarAuth,verificarRolImagenes], apiImagenes.modificarExamImagenes);
+router.post('/eliminarExamImagen',[verificarAuth,verificarRolImagenes], apiImagenes.eliminarExamImagen);
 router.post('/cambiarEstadoImagen',[verificarAuth,verificarRolImagenes], apiImagenes.cambiarEstadoImagen);
 router.post('/listarExamenesImagenes',[verificarAuth,verificarRolImagenes],apiImagenes.listarExamenesImagenes)
 

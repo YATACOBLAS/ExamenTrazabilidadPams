@@ -28,9 +28,9 @@ app.set('port', process.env.PORT || 3000);
  
 
 app.use(myConnection(mysql, {
-    host:'localhost',
+    host:'20.25.10.169',
     user:'jhon',
-    password:'root',
+    password:'@pams$Server_2022',
     port:3306 ,
     database:'dbpams'
 },'single'));

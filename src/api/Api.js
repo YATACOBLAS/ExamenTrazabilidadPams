@@ -132,6 +132,32 @@ api.saveUsers = (req, res) => {
     })
 };
 
+
+api.deleteUser = (req, res) => {
+    var id = req.body.idUsuario;
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).json({
+                mensaje: 'Ocurrio un error',
+                err
+            });
+            return;
+        }
+        conn.query('CALL ELIMINAR_USUARIO(?)', [id], (err, result) => {
+            if (err) {
+                    res.status(500).json({
+                        mensaje: 'Ocurrio un error',
+                        err
+                    });
+                    return;
+                 } else {  
+                     res.json({ mensaje: 'Elimiación Exitosa' }) 
+                    return 
+                }
+            });
+       });
+};
+
 api.login = (req, res) => {
     var email = req.body.email;
     var pass = req.body.pass;
@@ -146,14 +172,12 @@ api.login = (req, res) => {
 
         conn.query('call LOGIN(?)', [email], (err, result) => {
             if (err) {
-                
                 res.status(500).json({
                     mensaje: 'Ocurrio un error',
                     err
                 });
                 return;
-            }
-            else if (!result[0].length) {
+            } else if (!result[0].length) {
                 res.status(400).json({
                     mensaje: 'Usuario no valido'
                 });

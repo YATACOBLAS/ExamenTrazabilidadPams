@@ -8,7 +8,8 @@ apiNotificacion.notificar= (req,res)=>{
     let examen=req.body.examen;
       client.messages 
         .create({ 
-       body: `Hola *${nombre}*🙂, el resultado del examen 🧪 *${examen}* que te realizaste en el policlinico PAMS 👨‍⚕, esta listo, puede acercarse hoy mismo.`, 
+       body: `Hola *${nombre}*🙂, el resultado del examen 🧪 *${examen}* que te realizaste en el policlinico PAMS 👨‍⚕, 
+       esta listo, puede acercarse hoy mismo.`, 
        from: 'whatsapp:+14155238886',       
        to: 'whatsapp:+51957834644' 
      }) 
