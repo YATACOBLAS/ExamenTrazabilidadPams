@@ -71,6 +71,7 @@ router.post('/saveExamPatologia',[verificarAuth,verificarRolPatologia], apiPatol
 router.post('/modificarExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.modificarExamPatologia);
 router.post('/modificarUnSoloExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.modificarUnSoloExamPatologia);
 router.post('/eliminarExamPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.eliminarExamPatologia);
+router.post('/eliminarExamIndividualPatologia',[verificarAuth,verificarRolPatologia], apiPatologia.eliminarExamIndividualPatologia);
 
 //LaboratorioClinicoPams
 router.get('/listarTipoMuestraLab', apiLaboratorio.listarTipoMuestraLab);
@@ -82,6 +83,7 @@ router.post('/saveExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], 
 router.post('/modificarExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.modificarExamLaboratorio);
 router.post('/modificarUnSoloExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.modificarUnSoloExamLaboratorio);
 router.post('/eliminarExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.eliminarExamLaboratorio);
+router.post('/eliminarExamIndividualLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.eliminarExamIndividualLaboratorio);
 //LaboratorioTercerizadoAmbos
 router.post('/guardarResultadoPDF',[verificarAuth,verificarRolLaboratorioTercerizado],(multer().single("file")), apiTercerizado.guardarResultadoPDF);
 //LaboratorioTercerizadoLima

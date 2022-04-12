@@ -171,9 +171,9 @@ apiLaboratorio.saveExamLaboratorio = (req, res) => {
         });
     }
 
-apiLaboratorio.eliminarExamLaboratorio = (req, res) => {
-
-        var iteracion= req.body.examenes.length;
+    apiLaboratorio.eliminarExamLaboratorio = (req, res) => {
+   
+        var iteracion= req.body.length;
 
         req.getConnection((err, conn) => {
             if(err){
@@ -185,7 +185,8 @@ apiLaboratorio.eliminarExamLaboratorio = (req, res) => {
 
     eliminarUnExamen=(body,iteracion,req,res,conn)=>{
         
-        var id= req.body.examenes[iteracion-1].idExamen;
+        var id= body[iteracion-1].idExamen;
+        console.log(id);
         conn.query('CALL ELIMINAR_EXAMEN_DE_LABORATORIO_CLINICO(?)',[id], (err, result, fields) => {
                         if (err) {
                         res.status(400).json(err)
@@ -201,5 +202,24 @@ apiLaboratorio.eliminarExamLaboratorio = (req, res) => {
                     }
             });
     }
+
+    
+    apiLaboratorio.eliminarExamIndividualLaboratorio = (req, res) => {
+
+        var id= req.body.id;
+        req.getConnection((err, conn) => {
+            if(err){
+                console.log(err)
+            }
+            conn.query('CALL ELIMINAR_EXAMEN_DE_LABORATORIO_CLINICO(?)',[id], (err, result, fields) => {
+                if (err) {
+                   res.status(400).json(err)
+                   return; }
+    
+                   res.json({ mensaje: 'Eliminación Exitosa' });
+                   return;            
+            });
+    });
+ }
 
 module.exports=apiLaboratorio;

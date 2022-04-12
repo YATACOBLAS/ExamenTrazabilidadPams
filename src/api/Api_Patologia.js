@@ -181,19 +181,16 @@ apiPatologia.saveExamPatologia = (req, res) => {
 apiPatologia.eliminarExamPatologia = (req, res) => {
 
         var iteracion= req.body.length;
-    
-        
         req.getConnection((err, conn) => {
             if(err){
                 console.log(err)
             }
-            eliminarUnExamen(req.body,iteracion,req,res,conn);
+            eliminarUnExamenPat(req.body,iteracion,req,res,conn);
        });
 
     }
 
-    eliminarUnExamen=(body,iteracion,req,res,conn)=>{ 
-        var id= body[iteracion-1].idExamen;
+    eliminarUnExamenPat=(body,iteracion,req,res,conn)=>{ 
         conn.query('CALL ELIMINAR_EXAMEN_DE_PATOLOGIA(?)',[id], (err, result, fields) => {
                         if (err) {
                             console.log(err)
@@ -205,11 +202,28 @@ apiPatologia.eliminarExamPatologia = (req, res) => {
                                 res.json({ mensaje: 'Eliminación Exitosa' });
                             return;
                             }else{ 
-                                eliminarUnExamen(body,iteracion,req,res,conn);
-                             }
-                    }
+                                eliminarUnExamenPat(body,iteracion,req,res,conn);
+                   }
+             }
+      });
+  }
+
+    apiPatologia.eliminarExamIndividualPatologia = (req, res) => {
+        
+        var id= req.body.id;
+        console.log(id)
+         req.getConnection((err, conn) => {
+            if(err){
+                console.log(err)
+            }
+            conn.query('CALL ELIMINAR_EXAMEN_DE_PATOLOGIA(?)',[id], (err, result, fields) => {
+                if (err) {
+                    console.log(err)
+                    res.status(400).json(err)
+                 return; }
+                    res.json({ mensaje: 'Eliminación Exitosa' });
+                 return;            
             });
-    }
-
-
+    });
+ }
 module.exports =apiPatologia;
