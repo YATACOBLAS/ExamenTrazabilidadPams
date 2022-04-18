@@ -191,18 +191,18 @@ apiPatologia.eliminarExamPatologia = (req, res) => {
     }
 
     eliminarUnExamenPat=(body,iteracion,req,res,conn)=>{ 
+        var id= body[iteracion-1].idExamen;
         conn.query('CALL ELIMINAR_EXAMEN_DE_PATOLOGIA(?)',[id], (err, result, fields) => {
                         if (err) {
-                            console.log(err)
                         res.status(400).json(err)
                         return;
                         } else {
                             iteracion--;
-                            if(iteracion<1){
-                                res.json({ mensaje: 'Eliminación Exitosa' });
-                            return;
-                            }else{ 
-                                eliminarUnExamenPat(body,iteracion,req,res,conn);
+                        if(iteracion<1){
+                             res.json({ mensaje: 'Eliminación Exitosa' });
+                              return;
+                        }else{ 
+                            eliminarUnExamenPat(body,iteracion,req,res,conn);
                    }
              }
       });

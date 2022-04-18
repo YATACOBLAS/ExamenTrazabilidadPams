@@ -78,7 +78,7 @@ modificarLaboratorio=(body,iteracion,peticion,respuesta)=>{
                      fechaRegistroExamen, fechaAtencion,fechaEntregaResultado,estadoEnvio,
                      idMuestraLab,idPaciente,idUsuario], (err, result, fields) => {
             if (err) {
-                respuesta.status(400).json(err)
+                respuesta.status(400).json(err);
                 return;
             } else {
                 iteracion--;
@@ -128,6 +128,7 @@ apiLaboratorio.saveExamLaboratorio = (req, res) => {
             conn.query('CALL INSERTAR_PACIENTE(?,?,?,?,?,?) ',
                          [dni,nombres, apellidos,fechaNacimiento,telefono,empresa], (err, result, fields) => {
                 if (err) {
+                    console.log(err)
                     res.status(400).json(err)
                     return;
                 } else {
