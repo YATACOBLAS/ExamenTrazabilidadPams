@@ -107,7 +107,6 @@ const path=require('path');
         var fechaRegistroExamen=body.examenes[iteracion-1].fechaRegistroExamen; 
         var fechaAtencion=body.examenes[iteracion-1].fechaAtencion; 
         var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado; 
-        var nroVoucher= body.examenes[iteracion-1].nroVoucher; 
         var importe=body.examenes[iteracion-1].importe;
         var idTipoAtencion=body.examenes[iteracion-1].idTipoAtencion;
         var idMuestraImagen=body.examenes[iteracion-1].idMuestraImagen;
@@ -117,9 +116,9 @@ const path=require('path');
         var detalleRolMedico=body.examenes[iteracion-1].detalleRolMedico;
         var idUsuario=req.usuario.idUsuario;  
       
-            conexion.query('CALL INSERTAR_EXAMEN_IMAGENES(?,?,?,?,?,?,?,?,?,?,?,?)',
+            conexion.query('CALL INSERTAR_EXAMEN_IMAGENES(?,?,?,?,?,?,?,?,?,?,?)',
                         [ idPaciente,fechaRegistroExamen,fechaAtencion,fechaEntregaResultado,
-                          nroVoucher, importe,
+                         importe,
                          idTipoAtencion,idMuestraImagen,idEspecialidad,idTipoPlaca,nroFallas,idUsuario], (err, result, fields) => {
 
                 if (err) {
@@ -198,7 +197,6 @@ const path=require('path');
         var fechaRegistroExamen=examenes[iteracion-1].fechaRegistroExamen; 
         var fechaAtencion=examenes[iteracion-1].fechaAtencion; 
         var fechaEntregaResultado=examenes[iteracion-1].fechaResultado;
-        var nroVoucher=examenes[iteracion-1].nroVoucher; 
         var importe=examenes[iteracion-1].importe;      
         var idTipoAtencion=examenes[iteracion-1].idTipoAtencion; 
         var idMuestraImagen=examenes[iteracion-1].idMuestraImagen;
@@ -207,8 +205,8 @@ const path=require('path');
         var nroFallas=examenes[iteracion-1].nroFallas;
         var iteracionDetalleRol=examenes[iteracion-1].detalleRolMedico.length;
         var idUsuario=req.usuario.idUsuario;  
-        conn.query('call MODIFICAR_EXAMEN_IMAGENES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[
-            opcionExamen,idExamen,fechaRegistroExamen,fechaAtencion,fechaEntregaResultado,nroVoucher,importe,
+        conn.query('call MODIFICAR_EXAMEN_IMAGENES(?,?,?,?,?,?,?,?,?,?,?,?,?)',[
+            opcionExamen,idExamen,fechaRegistroExamen,fechaAtencion,fechaEntregaResultado,importe,
             idTipoAtencion,idMuestraImagen,idEspecialidad,idTipoPlaca,nroFallas,idPaciente,idUsuario
         ],(err,result)=>{
             if(err){

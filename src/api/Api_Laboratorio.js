@@ -62,8 +62,7 @@ modificarLaboratorio=(body,iteracion,peticion,respuesta)=>{
         var empresa=body.empresa;
              var stringDoExamen=body.examenes[iteracion-1].doExamen;
         var doExamen=(stringDoExamen=='Modificar'? 1:(stringDoExamen=='Nuevo'? 0 : -1 )) ; 
-        var idExamen=body.examenes[iteracion-1].idExamen; 
-        var nroVoucher=body.examenes[iteracion-1].nroVoucher;         
+        var idExamen=body.examenes[iteracion-1].idExamen;   
         var fechaRegistroExamen=(stringDoExamen=='Nuevo'? body.fechaRegistroExamen : null ); 
         var fechaAtencion=body.examenes[iteracion-1].atendido? body.fechaRegistroExamen: null; 
         var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
@@ -73,8 +72,8 @@ modificarLaboratorio=(body,iteracion,peticion,respuesta)=>{
         var idUsuario=peticion.usuario.idUsuario;  
     
     peticion.getConnection((err, conn) => {
-        conn.query('CALL MODIFICAR_EXAMEN_DE_LABORATORIO_PAMS(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
-                     [dni,nroVoucher,nombres, apellidos,fechaNacimiento,telefono,empresa,doExamen,idExamen, 
+        conn.query('CALL MODIFICAR_EXAMEN_DE_LABORATORIO_PAMS(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ',
+                     [dni,nombres, apellidos,fechaNacimiento,telefono,empresa,doExamen,idExamen, 
                      fechaRegistroExamen, fechaAtencion,fechaEntregaResultado,estadoEnvio,
                      idMuestraLab,idPaciente,idUsuario], (err, result, fields) => {
             if (err) {
@@ -146,15 +145,14 @@ apiLaboratorio.saveExamLaboratorio = (req, res) => {
   SaveLaboratorio=(body,iteracion,req,res,conn)=>{
     
       var fechaRegistroExamen=body.fechaRegistroExamen; 
-      var nroVoucher= body.examenes[iteracion-1].nroVoucher;
       var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
       var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
       var estadoEnvio=body.examenes[iteracion-1].enviado;
       var idMuestraLab=body.examenes[iteracion-1].id;
       var idUsuario=req.usuario.idUsuario;  
       var idPaciente=body.idPaciente;  
-      conn.query('CALL INSERTAR_EXAMEN_DE_LABORATORIO_PAMS(?,?,?,?,?,?,?,?)',
-      [ idPaciente,nroVoucher,fechaRegistroExamen,fechaAtencion,fechaEntregaResultado, estadoEnvio,
+      conn.query('CALL INSERTAR_EXAMEN_DE_LABORATORIO_PAMS(?,?,?,?,?,?,?)',
+      [ idPaciente,fechaRegistroExamen,fechaAtencion,fechaEntregaResultado, estadoEnvio,
         idMuestraLab,idUsuario], (err, result, fields) => {
             if (err) {
                     console.log(err)
@@ -187,7 +185,6 @@ apiLaboratorio.saveExamLaboratorio = (req, res) => {
     eliminarUnExamen=(body,iteracion,req,res,conn)=>{
         
         var id= body[iteracion-1].idExamen;
-        console.log(id);
         conn.query('CALL ELIMINAR_EXAMEN_DE_LABORATORIO_CLINICO(?)',[id], (err, result, fields) => {
                         if (err) {
                         res.status(400).json(err)
