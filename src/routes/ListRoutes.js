@@ -85,7 +85,10 @@ router.post('/modificarUnSoloExamLaboratorio',[verificarAuth,verificarRolLaborat
 router.post('/eliminarExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.eliminarExamLaboratorio);
 router.post('/eliminarExamIndividualLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.eliminarExamIndividualLaboratorio);
 //LaboratorioTercerizadoAmbos
-router.post('/guardarResultadoPDF',[verificarAuth,verificarRolLaboratorioTercerizado],(multer().single("file")), apiTercerizado.guardarResultadoPDF);
+router.post('/guardarResultadoPDFLaboratorio',[verificarAuth,verificarRolLaboratorioTercerizado],(multer().single("file")), apiTercerizado.guardarResultadoPDFLaboratorio);
+router.post('/guardarResultadoPDFPatologia',[verificarAuth,verificarRolLaboratorioTercerizado],(multer().single("file")), apiTercerizado.guardarResultadoPDFPatologia);
+
+
 //LaboratorioTercerizadoLima
 router.get('/listarExamPendientesLabLima',[verificarAuth,verificarRolLaboratorioTercerizado], apiTercerizado.listarExamPendientesLabLima);
 //LaboratorioTercerizadoChincha

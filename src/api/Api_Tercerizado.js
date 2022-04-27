@@ -29,7 +29,8 @@ apiLabTercerizado.listarExamPendientesLabLima = (req, res) => {
 
 
 //PDF CHINCHA
-apiLabTercerizado.guardarResultadoPDF = (req, res) => {    
+apiLabTercerizado.guardarResultadoPDFLaboratorio = (req, res) => {    
+
     //el primero es el original
     //  console.log("descripcion: ",req.file);
     // console.log("buffer:", req.file.buffer);
@@ -43,8 +44,32 @@ apiLabTercerizado.guardarResultadoPDF = (req, res) => {
     var nombrePdf=req.file.originalname;
     var idUsuario=req.usuario.idUsuario;  
     req.getConnection((err, conn) => {
+        conn.query('CALL INSERTAR_RESULTADO_EXAMEN_LABORATORIO(?,?,?,?,?,?,?,?)',
+        [fechaInforme,horaInforme,descripcion,nivelUrgencia,pdf,nombrePdf,idUsuario,idExamen], (err, result) => {
+            if(err){ 
+                res.status(400).json(err)
+               
+                return;
+            };
+            res.json(result);
+            return;
+        });
+    });
+    };
+    //PDF LIMA
+apiLabTercerizado.guardarResultadoPDFPatologia = (req, res) => {    
+
+    var idExamen=req.body.idExamen;
+    var fechaInforme=req.body.fechaInforme; 
+    var horaInforme=req.body.horaInforme; 
+    var descripcion = req.body.descripcion;
+    var nivelUrgencia=req.body.nivelUrgencia;
+    var pdf=req.file.buffer;
+    var nombrePdf=req.file.originalname;
+    var idUsuario=req.usuario.idUsuario;  
+    req.getConnection((err, conn) => {
         conn.query('CALL INSERTAR_RESULTADO_EXAMEN_LABORATORIO_Y_PATOLOGIA(?,?,?,?,?,?,?,?)',
-        [fechaInforme,horaInforme,descripcion,nivelUrgencia,pdf,nombrePdf,idExamen,idUsuario], (err, result) => {
+        [fechaInforme,horaInforme,descripcion,nivelUrgencia,pdf,nombrePdf,idUsuario,idExamen], (err, result) => {
             if(err){ 
                 res.status(400).json(err)
                 return;
