@@ -40,9 +40,6 @@ const {verificarAuth,verificarRolAdmin,verificarRolPatologia,verificarRolLaborat
     verificarRolLaboratorioTercerizado,verificarRolAdmision,verificarRolImagenes}= require('../middleware/autenticacion');
 
 
-
-
-router.get('/listarEmpresa', api.listarEmpresa);
 //por el momento nadie lo usa se3ra quitado si no tiene uso
 router.get('/obtenerRol/:idusuario', api.listarRoles);
 
