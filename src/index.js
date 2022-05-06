@@ -34,29 +34,8 @@ app.use(myConnection(mysql, {
     port:3306 ,
     database:'dbpams'
 },'single'));
-/*
-app.use(myConnection(mysql, {
-    host:'20.25.10.169',
-    user:'jhon',
-    password:'@pams$Server_2022',
-    port:3306,
-    database:'dbpams'
-},'single'));
-*/
-// app.use(myConnection(mysql, {
-//     host:'178.128.68.102',
-//     user:'fixblue',
-//     password:'$Fixblue_remoto%123',
-//     port:3306 ,
-//     database:'FIXBLUE'
-// },'single'));
 
 
-
-// con.connect(function(err){
-//     if(err) throw err;
-//    console.log('Conected!!');
-// })
 app.use(cors());
 app.use(express.json());
 
