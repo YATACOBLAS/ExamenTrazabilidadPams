@@ -75,7 +75,6 @@ router.get('/listarTipoMuestraLab', apiLaboratorio.listarTipoMuestraLab);
 router.get('/listarMuestraLab/:idMuestra', apiLaboratorio.listarMuestraLab);
 router.post('/listarExamenLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.listarExamenLaboratorio);
 router.get('/listarExamPendientesLaboratorio', apiLaboratorio.listarExamPendientesLaboratorio);
-
 router.post('/saveExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.saveExamLaboratorio);
 router.post('/modificarExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.modificarExamLaboratorio);
 router.post('/modificarUnSoloExamLaboratorio',[verificarAuth,verificarRolLaboratorioPams], apiLaboratorio.modificarUnSoloExamLaboratorio);

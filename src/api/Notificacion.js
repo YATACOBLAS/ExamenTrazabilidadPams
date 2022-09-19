@@ -1,7 +1,7 @@
 const apiNotificacion = {};
 
 require('dotenv').config();
-const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_TOKEN); 
+const client = require('twilio')('ACabf5b97106cbd885f4b01a0f53616cbf', 'c7fca78f628b0ecbdd39026f86f0025c'); 
  
 apiNotificacion.notificar= (req,res)=>{
     let nombre=req.body.nombre;
