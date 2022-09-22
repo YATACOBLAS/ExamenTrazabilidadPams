@@ -9,7 +9,7 @@ const myConnection = require('express-myconnection');
 const app = express();
 //url de la base de datos
 ///settings
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3000);
 
 app.use(myConnection(mysql, {
     host:'pamsserver.mysql.database.azure.com',
