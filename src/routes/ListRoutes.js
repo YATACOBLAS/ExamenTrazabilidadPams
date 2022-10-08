@@ -45,6 +45,9 @@ router.get('/obtenerRol/:idusuario', api.listarRoles);
 
 router.post('/saveUsers',api.saveUsers);
 router.post('/Login', api.login);
+router.post('/enviarCodigo',api.enviarCodigo);
+router.post('/verificarCodigo',api.verificarCodigo);
+router.post('/cambiarClave',api.cambiarClave);
 
 //LsitarEmpresa
 router.get('/listarEmpresa', api.listarEmpresa);

@@ -2,8 +2,8 @@ const api = {};
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
-const { Blob } = require('buffer');
-const fs = require('fs');
+const nodemailer = require('nodemailer');
+
 
 api.listarEmpresa = (req, res) => {
     req.getConnection((err, conn) => {
@@ -186,33 +186,202 @@ api.login = (req, res) => {
 
                 var dato = result[0][0];
                 var password = dato.pass;
-
-                if (!bcrypt.compareSync(pass, password)) {
-                     res.status(500).json({
-                        mensaje: 'Error en sus credenciales',
+                var usuario_bloqueado= dato.estado; 
+                
+                console.log(dato);
+             if(usuario_bloqueado==3){
+                    res.status(500).json({
+                        mensaje: 'Usuario Bloqueado',
                         err
                     });
                     return;
-                } else {
-                    var usuario = {
-                        nombre: dato.descripcion,
-                        email: dato.email,
-                        rol: dato.rol,
-                        idUsuario:dato.idUsuario
+             }else{
+          
+                    if (!bcrypt.compareSync(pass, password)) {
+                        bloqueoUsuario(email,res,conn);
+                        return;
+                    } else {
+                        var usuario = {
+                            nombre: dato.descripcion,
+                            email: dato.email,
+                            rol: dato.rol,
+                            idUsuario:dato.idUsuario
+                        }
+                        //generando un token
+                        let token = jwt.sign({ data: usuario }, 'SECRETO_PAMS_2021_TRAZABILIDAD_SECRETO', { expiresIn: 60 * 60 * 24 * 30 })
+                        //responder con las validaciones echas anteriormente
+                        res.json({
+                            usuario,
+                            token: token
+                        });
+                        return;
                     }
-                    //generando un token
-                    let token = jwt.sign({ data: usuario }, 'SECRETO_PAMS_2021_TRAZABILIDAD_SECRETO', { expiresIn: 60 * 60 * 24 * 30 })
-                    //responder con las validaciones echas anteriormente
-                    res.json({
-                        usuario,
-                        token: token
-                    });
-                    return;
-                }
+
+             }
+
+
             }
         });
     })
 };
+
+
+bloqueoUsuario=(email,res,conn)=>{ 
+    conn.query('CALL ATTEMPTED_LOGIN(?)',[email], (err, result, fields) => {
+                    if (err) {
+                    res.status(400).json(err)
+                    return;
+                    } else {
+                       
+                        res.status(500).json({
+                            mensaje: 'Error en sus credenciales',
+                            err
+                        });
+                        return;
+                    }
+  });
+}
+
+
+enviarMail= (email,code,res)=>{
+
+    const config={
+        host:"smtp.gmail.com",
+        port:"587",
+        auth:{
+            user:"juanyatacoblas@gmail.com",
+            pass:"tvqokfrgdeuajtoq"
+          }
+    }
+
+
+    const mensaje={
+        from:"juanyatacoblas@gmail.com",
+        to:email,
+        subject:"Aplicación de ExamenesPAMS",
+        text:`Tu código es : ${code}`
+    }
+
+    const transport= nodemailer.createTransport(config);
+
+    transport.sendMail(mensaje,(err,info)=>{
+        if(err){
+            res.status(500).json({
+                mensaje: 'No se pudo enviar el código',
+                err
+            });
+            return           
+        }
+      
+        res.json({ mensaje: 'Código Enviado' }) 
+        return 
+        
+     })
+}
+
+
+
+
+api.enviarCodigo = (req, res) => {
+    var email = req.body.email;
+
+    var code =  Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;//min-max-4 digitos
+     
+
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).json({
+                mensaje: 'Ocurrio en conexión',
+            });
+            return;
+        }
+
+        conn.query('call GUARDAR_CODIGO(?,?)', [email,code], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    mensaje: 'Ocurrio un error',
+                    err
+                });
+                return;
+            } else {
+             
+                    enviarMail(email,code,res);                    
+             return;
+            }
+        });
+    })
+};
+
+
+api.verificarCodigo = (req, res) => {
+   
+    var email = req.body.email;
+    var codigo = req.body.codigo;
+   
+   
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).json({
+                mensaje: 'Ocurrio un error',
+                err
+            });
+            console.log('Conexion');
+            return;
+        }
+        conn.query('CALL VERIFICAR_CODIGO(?,?)', [email, codigo], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    mensaje: 'Ocurrio un error',
+                    err
+                });
+                return;
+            } else {
+                
+                if (result[0].length) {
+                    var verificado = result[0][0].verificado;
+                    console.log(verificado)
+                    verificado > 0 ? res.json({ mensaje: 'Verificación correcta' }) : res.status(500).json({ mensaje: 'Código Incorrecto' });
+                }
+                return;
+            }
+        });
+    })
+};
+
+api.cambiarClave = (req, res) => {
+
+    var email = req.body.email;
+    var pass = bcrypt.hashSync(req.body.password, saltRounds);
+    var codigo = req.body.codigo;
+console.log(req.body);
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).json({
+                mensaje: 'Ocurrio un error',
+                err
+            });
+            return;
+        }
+        conn.query('CALL CAMBIAR_CLAVE(?,?,?)', [email, pass,codigo], (err, result) => {
+            if (err) {
+                res.status(500).json({
+                    mensaje: 'Ocurrio un error',
+                    err
+                });
+                return;
+            } else {
+                if (result[0][0].total) {
+                    var total = result[0][0].total;
+                    //var io=req.app.get('socket.io');
+                    //io.sockets.emit('notificacion:regUsuario',result);
+                    total > 0 ? res.json({ mensaje: 'Cambio de clave exitoso' }) : res.status(500).json({ mensaje: 'No se pude cambiar clave' });
+                }
+                return;
+            }
+        });
+    })
+};
+
 
 
 
