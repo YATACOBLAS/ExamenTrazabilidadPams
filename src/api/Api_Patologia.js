@@ -82,7 +82,6 @@ function modificarPatologia(body,iteracion,peticion,respuesta){
 
             if (err) {
                 respuesta.status(400).json(err)
-                console.log(err)
                 return;
             } else {
                 iteracion--;
@@ -142,6 +141,7 @@ apiPatologia.saveExamPatologia = (req, res) => {
         var telefono=body.telefono;
         var empresa=body.empresa;
         var fechaRegistroExamen=body.fechaRegistroExamen; 
+        // var nroVoucher=body.examenes[iteracion-1].nroVoucher ===''? '' : body.examenes[iteracion-1].nroVoucher; 
         var fechaAtencion=body.examenes[iteracion-1].atendido? fechaRegistroExamen: null; 
         var fechaEntregaResultado=body.examenes[iteracion-1].fechaResultado ===''? null: body.examenes[iteracion-1].fechaResultado; 
         var cantidad=body.examenes[iteracion-1].cantidad; 
@@ -209,14 +209,10 @@ apiPatologia.eliminarExamPatologia = (req, res) => {
     apiPatologia.eliminarExamIndividualPatologia = (req, res) => {
         
         var id= req.body.id;
-        console.log(id)
          req.getConnection((err, conn) => {
-            if(err){
-                console.log(err)
-            }
+
             conn.query('CALL ELIMINAR_EXAMEN_DE_PATOLOGIA(?)',[id], (err, result, fields) => {
                 if (err) {
-                    console.log(err)
                     res.status(400).json(err)
                  return; }
                     res.json({ mensaje: 'Eliminación Exitosa' });

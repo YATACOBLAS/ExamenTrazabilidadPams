@@ -10,8 +10,29 @@ apiLabTercerizado.listarExamPendientesLabChincha = (req, res) => {
             return;
         });
     });
-
 };
+
+apiLabTercerizado.listarExamEditarLabChincha = (req, res) => { 
+
+
+    var desde=req.body.desde;
+    var hasta=req.body.hasta; 
+
+    req.getConnection((err, conn) => {
+        conn.query('CALL LISTA_PARA_EDITAR_RESULTADOS_LABORATORIO_PAMS(?,?)', [desde,hasta], (err, result) => {
+            if (err) {
+             res.status(400).json(err)
+             return;
+            };
+            res.json(result[0]);
+            return;
+        });
+    });
+  
+};
+
+
+
 
 apiLabTercerizado.listarExamPendientesLabLima = (req, res) => { 
     req.getConnection((err, conn) => {
@@ -25,7 +46,22 @@ apiLabTercerizado.listarExamPendientesLabLima = (req, res) => {
         });
     });
 };
+apiLabTercerizado.listarExamEditarLabLima = (req, res) => { 
 
+    var desde=req.body.desde;
+    var hasta=req.body.hasta; 
+    req.getConnection((err, conn) => {
+        conn.query('CALL LISTA_PARA_EDITAR_RESULTADOS_PATOLOGIA_PAMS(?,?)', [desde,hasta], (err, result) => {
+            if (err) {
+             res.status(400).json(err)
+             return;
+            };
+            res.json(result[0]);
+            return;
+        });
+    });
+  
+};
 
 
 //PDF CHINCHA
@@ -56,7 +92,30 @@ apiLabTercerizado.guardarResultadoPDFLaboratorio = (req, res) => {
         });
     });
     };
-    //PDF LIMA
+
+    apiLabTercerizado.modificarResultadoPDFLaboratorio = (req, res) => {    
+
+        var fechaInforme=req.body.fechaInforme; 
+        var horaInforme=req.body.horaInforme; 
+        var descripcion = req.body.descripcion;
+        var nivelUrgencia=req.body.nivelUrgencia;
+        var pdf=req.file.buffer;
+        var nombrePdf=req.file.originalname;
+        var idResultado=req.body.idResultado;
+        req.getConnection((err, conn) => {
+            conn.query('CALL MODIFICAR_RESULTADO_EXAMEN_LABORATORIO(?,?,?,?,?,?,?)',
+            [fechaInforme,horaInforme,descripcion,nivelUrgencia,pdf,nombrePdf,idResultado], (err, result) => {
+                if(err){ 
+                    res.status(400).json(err)
+                    return;
+                };
+                res.json(result);
+                return;
+            });
+        });
+        };
+
+//PDF LIMA
 apiLabTercerizado.guardarResultadoPDFPatologia = (req, res) => {    
 
     var idExamen=req.body.idExamen;
@@ -68,7 +127,7 @@ apiLabTercerizado.guardarResultadoPDFPatologia = (req, res) => {
     var nombrePdf=req.file.originalname;
     var idUsuario=req.usuario.idUsuario;  
     req.getConnection((err, conn) => {
-        conn.query('CALL INSERTAR_RESULTADO_EXAMEN_LABORATORIO_Y_PATOLOGIA(?,?,?,?,?,?,?,?)',
+        conn.query('CALL INSERTAR_RESULTADO_EXAMEN_PATOLOGIA(?,?,?,?,?,?,?,?)',
         [fechaInforme,horaInforme,descripcion,nivelUrgencia,pdf,nombrePdf,idUsuario,idExamen], (err, result) => {
             if(err){ 
                 res.status(400).json(err)
@@ -80,6 +139,29 @@ apiLabTercerizado.guardarResultadoPDFPatologia = (req, res) => {
     });
     };
 
+    
+
+apiLabTercerizado.modificarResultadoPDFPatologia = (req, res) => {    
+
+        var fechaInforme=req.body.fechaInforme; 
+        var horaInforme=req.body.horaInforme; 
+        var descripcion = req.body.descripcion;
+        var nivelUrgencia=req.body.nivelUrgencia;
+        var pdf=req.file.buffer;
+        var nombrePdf=req.file.originalname;
+        var idResultado=req.body.idResultado;  
+        req.getConnection((err, conn) => {
+            conn.query('CALL MODIFICAR_RESULTADO_EXAMEN_PATOLOGIA(?,?,?,?,?,?,?)',
+            [fechaInforme,horaInforme,descripcion,nivelUrgencia,pdf,nombrePdf,idResultado], (err, result) => {
+                if(err){ 
+                    res.status(400).json(err)
+                    return;
+                };
+                res.json(result);
+                return;
+            });
+        });
+        };
 
 
 module.exports =apiLabTercerizado;

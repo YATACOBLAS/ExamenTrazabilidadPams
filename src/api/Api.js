@@ -109,7 +109,6 @@ api.saveUsers = (req, res) => {
                 mensaje: 'Ocurrio un error',
                 err
             });
-            console.log('Conexion');
             return;
         }
         conn.query('CALL INSERTAR_USUARIO(?,?,?)', [user, email, pass], (err, result) => {
@@ -187,8 +186,7 @@ api.login = (req, res) => {
                 var dato = result[0][0];
                 var password = dato.pass;
                 var usuario_bloqueado= dato.estado; 
-                
-                console.log(dato);
+
              if(usuario_bloqueado==3){
                     res.status(500).json({
                         mensaje: 'Usuario Bloqueado',
@@ -250,7 +248,7 @@ enviarMail= (email,code,res)=>{
         port:"587",
         auth:{
             user:"juanyatacoblas@gmail.com",
-            pass:"tvqokfrgdeuajtoq"
+            pass:"rqycfgiiwwaqcxvd"
           }
     }
 
@@ -260,7 +258,7 @@ enviarMail= (email,code,res)=>{
         to:email,
         subject:"Aplicación de ExamenesPAMS",
         text:`Tu código es : ${code}`
-    }
+    }   
 
     const transport= nodemailer.createTransport(config);
 
@@ -274,7 +272,7 @@ enviarMail= (email,code,res)=>{
         }
       
         res.json({ mensaje: 'Código Enviado' }) 
-        return 
+        return  
         
      })
 }
@@ -325,7 +323,7 @@ api.verificarCodigo = (req, res) => {
                 mensaje: 'Ocurrio un error',
                 err
             });
-            console.log('Conexion');
+      
             return;
         }
         conn.query('CALL VERIFICAR_CODIGO(?,?)', [email, codigo], (err, result) => {
@@ -339,7 +337,6 @@ api.verificarCodigo = (req, res) => {
                 
                 if (result[0].length) {
                     var verificado = result[0][0].verificado;
-                    console.log(verificado)
                     verificado > 0 ? res.json({ mensaje: 'Verificación correcta' }) : res.status(500).json({ mensaje: 'Código Incorrecto' });
                 }
                 return;
@@ -353,7 +350,6 @@ api.cambiarClave = (req, res) => {
     var email = req.body.email;
     var pass = bcrypt.hashSync(req.body.password, saltRounds);
     var codigo = req.body.codigo;
-console.log(req.body);
     req.getConnection((err, conn) => {
         if (err) {
             res.status(500).json({
@@ -426,7 +422,7 @@ api.listarAdmisionExamLaboratorio = (req, res) => {
 
     req.getConnection((err, conn) => {
         conn.query("select * from LISTA_PENDIENTE_PARA_ADMISION_DE_RESULTADO_LABORATORIO  l Left Join resultadoExamen res "+
-        "on res.idExamen=l.idExamen where res.estado = true or res.estado is null ;", 
+        "on res.idExamen=l.idExamen where res.estado = true or res.estado is null", 
          (err, result) => {
             if (err) { res.status(400).json(err)
                 return; };

@@ -17,7 +17,7 @@ app.use(myConnection(mysql, {
     password:'@$server_2022',
     port:3306 ,
     database:'dbpams'
-},'single'));
+},'single'));            
 
 app.use(cors());
 app.use(express.json());
