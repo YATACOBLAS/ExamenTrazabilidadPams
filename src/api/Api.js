@@ -163,6 +163,7 @@ api.login = (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) {
+            console.log(err);
             res.status(500).json({
                 mensaje: 'Ocurrio en conexión',
             });
