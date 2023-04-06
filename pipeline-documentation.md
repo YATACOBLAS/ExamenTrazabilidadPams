@@ -45,5 +45,7 @@ Azure Web App on Container Deploy: apipams::::::
 
 
 
-#NOTA
+# NOTA
+-cuando se crea un nuevo release se debe de deploy, 
+-siempre editar pipeline y no el release, porque nop se aplicara para los demas realease
 
