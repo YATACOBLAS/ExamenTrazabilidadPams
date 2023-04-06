@@ -8,15 +8,15 @@ al hacer push debe ser desplegado en el web static implementado y al cual se apu
 # **BACKEND**
 los servicios deben ser creados en este orden y anticipadamente
 NOTA::: crearlo anticipadamente 30 min 0 25 min para que las task del release puede detectar o reconocer
--azure container
--mysql-server
--web app service
+## azure container
+## mysql-server
+## web app service
 
 NOTA :el alcance de la coneccion del servicio es importante porque su alcance nos permnitira desplegar el backend, como registrar, la imagen de docker y desplegar a la api pams
 
-**mysql-server :> name= pams
-**web app service :> name= apipams
-**container-registre :> name= pamsregistry  (activar el usuario y contraseña y compiar la contraseña 1 o 2)
+### mysql-server :> name= pams
+### web app service :> name= apipams
+### container-registre :> name= pamsregistry  (activar el usuario y contraseña y compiar la contraseña 1 o 2)
 
 
 *****TASK
