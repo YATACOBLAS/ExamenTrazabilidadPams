@@ -12,7 +12,7 @@ apiNotificacion.notificar= (req,res)=>{
    .create({ 
       body: `Hola *${nombre}*🙂, el resultado del examen 🧪 *${examen}* que te realizaste en el policlinico PAMS 👨‍⚕ esta listo, puede acercarse hoy mismo.`,   
       messagingServiceSid: process.env.MESSAGIND_SERVICE_SID,      
-      to: `+51957834644` 
+      to: `+504463333` 
     })
     .then(message => {
     res.json({mensaje:"Notificacion Enviada"});
