@@ -248,14 +248,14 @@ enviarMail= (email,code,res)=>{
         host:"smtp.gmail.com",
         port:"587",
         auth:{
-            user:"juanyatacoblas@gmail.com",
-            pass:"rqycfgiiwwaqcxvd"
+            user:"juan.....blas@gmail.com",
+            pass:"adfafdfadfadf"
           }
     }
 
 
     const mensaje={
-        from:"juanyatacoblas@gmail.com",
+        from:"juan.......blas@gmail.com",
         to:email,
         subject:"Aplicación de ExamenesPAMS",
         text:`Tu código es : ${code}`
